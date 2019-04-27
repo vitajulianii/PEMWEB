@@ -1,0 +1,67 @@
+
+  var recentUsedKeyWorker;
+  if (location.host.toLowerCase().indexOf('localhost') < 0
+      && location.host.toLowerCase().indexOf('.dev.') < 0
+      && window.Worker && !recentUsedKeyWorker) {
+    try {
+      recentUsedKeyWorker = new Worker('/m/i18n/RecentUsedKeyWorker.js');
+    } catch (err) { }
+  }
+
+
+;(function (name, definition) {
+  var hasDefine = typeof define === 'function' && define.amd,
+  hasExports = typeof module !== 'undefined' && module.exports;
+    if (hasDefine) {
+        define(definition);
+    } else if (hasExports) {
+        module.exports = definition();
+    } else {
+        if (typeof this[name] === 'undefined') {
+            this[name] = definition();
+        } else {
+            if (typeof Object.assign != 'function') {
+                var transBag = definition() || {};
+                for (var key in transBag) {
+                    this[name][key] = transBag[key];
+                }
+            } else {
+                this[name] = Object.assign(this[name], definition());
+            }
+        }
+    }
+
+})('i18n_6001', function () {
+  var LANGUAGE = {"2019-02-05":"Tahun Baru Imlek","2018-6-15":"Hari Raya Idul Fitri","2019-08-11":"Hari Raya Idul Adha","2019-09-01":"Tahun Baru Islam","2019-08-12":"Idul Adha","2018-04-14":"Isra Miraj","2018-08-17":"Hari Kemerdekaan Indonesia","2018-06-16":"Hari Raya Idul Fitri","2018-09-11":"Tahun Baru Islam 1440 H","2019-06-01":"Hari Lahir Pancasila","2018-08-22":"Idul Adha 1439 H","2019-06-05":"Idul Fitri","2018-11-20":"Maulid Nabi Muhammad SAW","2019-04-03":"Isra Mi'raj","2019-12-25":"Hari Natal","2019-06-06":"Idul Fitri","2019-11-10":"Maulid Nabi Muhammad SAW","2019-05-19":"Hari Raya Waisak","2018-03-17":"Hari Raya Nyepi","2019-01-01":"Tahun Baru","2019-05-30":"Kenaikan Isa Almasih","2018-12-25":"Hari Natal","2019-05-01":"Hari Buruh Internasional","2019-11-09":"Maulid Nabi Muhammad SAW","2019-08-17":"Hari Kemerdekaan RI","2019-03-07":"Hari Raya Nyepi","2019-04-19":"Jumat Agung","__shark__key__provider__":"job","key":"value"};
+  
+    if(typeof Proxy === 'function'){
+      var LANGUAGE_PROXY = new Proxy(LANGUAGE,{
+      get: function(target, property) {
+          if(typeof property == 'symbol'){
+              return property;
+          }
+          else if (property in target) {
+              if(recentUsedKeyWorker){
+                  recentUsedKeyWorker.postMessage(6001 + '|' + 'id-id' + '|' + property);
+              }
+              if (typeof Array.prototype.filter === 'function' && document.cookie.split(';').filter(function(item) {
+                return item.indexOf('shark_plugin=1') >= 0
+              }).length > 0) {
+                return '<i data-key=\'' + property + '\' data-appid=\'6001\'>' + target[property] + '</i>';
+              }
+              return target[property];
+          } else {
+              console.log(property + ' does not exist!');
+              return null;
+          }
+      },
+      set: function(target, property, value){
+          target[property] = value;
+          return true;
+      }
+      });
+      return LANGUAGE_PROXY;
+    }
+  
+  return LANGUAGE;});
+  

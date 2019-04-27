@@ -1,0 +1,21 @@
+.container {
+        margin-top: 30px;
+    }
+    .dropdown-toggle,
+    .dropdown-menu {
+        border-radius: 0px !important;
+    }
+    .dropdown-item:hover {
+        color: white;
+        background-color: #dc3545;
+    }
+    .btn-primary {
+        width: 55%;
+    }
+    .dropdown:hover>.dropdown-menu {
+      display: block;
+    }
+
+    .nav-link{
+    font-style: bold;
+}

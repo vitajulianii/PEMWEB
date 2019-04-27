@@ -1,0 +1,99 @@
+﻿(function() {
+	function g() {
+		if (l = r.match(/[/ ? &] c = ([ ^ &] + ) / )) return 0;
+		for (var i = "", e = "", b = "", c, a, h = 0, d = n.length; h < d;) {
+			a = n[h].split("|");
+			if ( - 1 < f.indexOf(a[1])) {
+				i = a[0];
+				b = a[3];
+				h = 0;
+				a = a[2].split(";");
+				for (var g = a.length; h < g; h++) if (d = m.match(RegExp("[/?&]" + a[h] + "([^&]+)"))) {
+					e = d[1];
+					break
+				}
+				break
+			}
+			h++
+		}
+		if (i) e = "google" == i && /gb2312/i.test(m) || "URLEncode" == b ? "_2." + e: "UTF-8" == b ? "_0." + decodeURIComponent(e) : "_0." + e;
+		else if (i = j.test(f) ? f.match(j)[2] : "", !i) return 0;
+		e = escape(e);
+		c = {
+			si: i,
+			ke: "",
+			qu: e,
+			ho: f,
+			la: o
+		};
+		return p.replace(/\{(\w+)\}/g,
+		function(a, b) {
+			return c[b]
+		})
+	}
+	function k() {
+		if (!l) return 0;
+		var a = l[1],
+		b = "",
+		c = "",
+		d; - 1 < a.indexOf("A") && (a = a.split("A"), b = a[0], c = a[1]);
+		if (!b) return 0;
+		c = escape(1 == c ? "": c);
+		d = {
+			si: b,
+			ke: c,
+			qu: "",
+			ho: f,
+			la: o
+		};
+		return p.replace(/\{(\w+)\}/g,
+		function(a, b) {
+			return d[b]
+		})
+	}
+	var b = /\.ctrip\.com|\.sh\.ctriptravel\.com/, 
+	j = /^([\w-]+\.)?(.+)\.(com|net|org|info|biz|cc|tv|cn|gov\.cn|name|mobi)$/, 
+	c = /ctrip\.com\.hk|ctrip\.com\.cn|sh\.ctriptravel\.com/, 
+	a = /english\.|\.english\./, 
+	ajp = /jp\.|\.jp\./, 
+	akr = /kr\.|\.kr\./, 
+	aes = /es\.|\.es\./, 
+	ade = /de\.|\.de\./, 
+	afr = /fr\.|\.fr\./, 
+	aru = /ru\.|\.ru\./, 
+	p = "SmartLinkCode={si}&SmartLinkKeyWord={ke}&SmartLinkQuary={qu}&SmartLinkHost={ho}&SmartLinkLanguage={la}", 
+	n = "google|google|q=|UTF-8,baidu|baidu|wd=;word=;kw=|URLEncode,yahoo|yahoo|p=|UTF-8,yahoo|yisou|search:|UTF-8,yahoo|3721|p=|URLEncode,sohu|sogou|query=|URLEncode,sohu|sohu|query=|URLEncode,sina|sina||,sina|iask|k=;_1=;key=|URLEncode,163|163.com|q=|URLEncode,tom|tom.com|word=;w=|URLEncode,hao123|hao123.com||,265|265.com||,21cn|21cn.com|keyword=|URLEncode,qq|qq.com||,qq|soso.com|w=|URLEncode,online|online.sh||,9991|9991.com||,live|msn|q=|UTF-8,yodao|yodao|q=|UTF-8,lycos|lycos|query=|UTF-8,ask|.ask.com|q=|UTF-8,altavista|altavista|q=|UTF-8,search|search.com|q=|UTF-8,netscape|netscape|query=|UTF-8,zhongsou|zhongsou|w=;word=|URLEncode,alice|alice.it|qs=|,teoma|teoma|q=|UTF-8,earthlink|earthlink|q=|UTF-8,cnn|cnn|query=|,looksmart|looksmart|key=|UTF-8,about|about|terms=|,excite|excite|qkw=;q_all=|,mamma|mamma|query=|UTF-8,alltheweb|alltheweb|q=|UTF-8,gigablast|gigablast|q=|UTF-8,aol|aol|query=|UTF-8".split(","), 
+	m = document.referrer, 
+	f = m.match(/^\w+:\/\/([^\/]+)/);
+	if (f && !b.test(f = f[1])) {
+		var b = document.domain,
+		o = a.test(b) ? "en": "zh",
+		o = ajp.test(b) ? "jp": o,
+		o = akr.test(b) ? "kr": o,
+		o = aes.test(b) ? "es": o,
+		o = ade.test(b) ? "de": o,
+		o = afr.test(b) ? "fr": o,
+		o = aru.test(b) ? "ru": o,
+		r = location.href,
+		a = {},
+		q = [],
+		l;
+		if ((a.Session = g()) || (a.Session = k())) {
+			a.expires = (new Date((new Date).getTime() + 10368E6)).toGMTString();
+			a.path = "/";
+			a.domain = b.match(c) || "ctrip.com";
+			var c = !1,
+			d;
+			for (d in a) q.push(d + "=" + a[d]),
+			"Session" == d && (c = !0);
+			document.cookie = q.join("; ");
+			if (c) d = new Date,
+			d.setTime(d.getTime() - 1),
+			document.cookie = encodeURIComponent("IAS") + "=;domain=.ctrip.com;path=/; expires=" + d.toGMTString()
+		}
+	}
+})(); (function() {
+	for (var g = location.search || "", k = [], b, j = ["campaign", "adid"], c = 0; c < j.length; c++)(b = (b = g.match(RegExp("[\\?&]" + j[c] + "=([^&]+)", "i"))) ? unescape(b[1]) : null) && k.push(j[c] + "=" + escape(b));
+	if (k.length) g = document.domain.match(/ctrip\.com\.hk|ctrip\.com\.cn|sh\.ctriptravel\.com/) || "ctrip.com",
+	document.cookie = "traceExt=" + k.join("&") + "; domain=" + g + "; path=/; expires=" + (new Date((new Date).getTime() + 26784E5)).toGMTString()
+})();

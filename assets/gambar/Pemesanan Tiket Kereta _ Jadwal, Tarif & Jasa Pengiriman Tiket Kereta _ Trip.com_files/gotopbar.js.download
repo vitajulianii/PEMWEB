@@ -1,0 +1,117 @@
+define(['cQueryPro'], function ($) {
+
+   var GoTopbar = function() {
+       var commonResUrl = (typeof __SITE_CONFIG__ !== 'undefined') && __SITE_CONFIG__.accountdomain;
+    var wrapID = "#mod_back_top";
+	var config = {
+            url: {
+                link: commonResUrl + "Tool/GoTopBar"
+            },
+            param: {
+                type: "text/javascript",
+                async: true
+            }
+        };
+        
+    return{
+        
+      GetWrap:function(){
+           var wrap = $(wrapID);
+           if (typeof wrap !== "undefined") return wrap;
+           return null;
+      },
+      init:function(){
+             var module = GoTopbar;
+                if (module != null) {
+                    var wrap = GoTopbar.GetWrap();
+                    if (wrap != null) {
+                        var param = config.param;
+                        var url = config.url.link+"?domain="+__PAGE_CONFIG__.base.domain;
+                        $.loader.js(url, param);
+                    }
+                }
+      },
+      Callback:function(data){
+           var module = GoTopbar;
+                if (module != null) {
+                    var wrap = GoTopbar.GetWrap();
+                    if (wrap != null && data.trim().length > 0) {
+                        wrap.html(data);    
+                        new ScrollBar($('.side-bar'));                  
+                    }
+                }
+      }       
+    };
+	
+    }();
+    
+   function ScrollBar(el, opts) {
+    var defaults = {
+        css: {
+            backTopIcon: '.back-top'
+        },
+        data: {
+            scrollPrecent: 0.3
+        }
+    };
+
+    this.$el = el;
+    this.opts = $.extend(defaults, opts);
+    this.data = {};
+    this.ui = {};
+    this.init();
+};
+
+ScrollBar.prototype = {
+    constructor: ScrollBar,
+    init: function () {
+        var css = this.opts.css;
+
+        this.ui.$window = $(window);
+        this.ui.$document = $(document);
+        this.ui.backTopIcon = this.$el.find(css.backTopIcon);
+        this.updateWindow();
+        this.checkScroll();
+        this.bindEvent();
+    },
+    checkScroll: function () {
+        if (this.ui.$document.scrollTop() > this.data.windowHeight * this.opts.data.scrollPrecent) {
+            this.ui.backTopIcon.show();
+        } else {
+            this.ui.backTopIcon.hide();
+        }
+    },
+    goTop: function () {
+        this.ui.$document.scrollTop(0);
+        this.ui.backTopIcon.hide();
+
+    },
+    updateWindow: function () {
+        this.data.windowHeight = $(window).height();
+    },
+    bindEvent: function () {
+        var self = this,
+            css = this.opts.css;
+
+        this.ui.$window.on('resize', function () {
+            self.updateWindow();
+            self.checkScroll();
+        });
+        this.ui.$window.on('scroll', function () {
+            self.checkScroll();
+        });
+
+        this.$el.on('click', css.backTopIcon, function (event) {
+            event.preventDefault();
+            self.goTop();
+        });
+
+    }
+};
+
+
+    return {
+        GoTopbar: GoTopbar,
+        ScrollBar: ScrollBar 
+    };
+});
